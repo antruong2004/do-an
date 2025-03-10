@@ -83,9 +83,12 @@
                     </li>
                 </ul>
                 <form class="d-flex search-bar ms-3">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                    <i class="fas fa-search"></i>
+                    <div class="input-group">
+                        <input type="text" id="search-index" class="form-control" placeholder="Nhập tên sản phẩm..." onkeydown="handleSearchIndex(event)">
+                        <button type="button" class="btn btn-primary" onclick="loadProductsForIndex()">Tìm kiếm</button>
+                    </div>
                 </form>
+                
             </div>
         </div>
     </nav>
