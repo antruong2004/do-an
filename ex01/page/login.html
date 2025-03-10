@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #212529; /* Màu nền tối */
+            color: #fff; /* Chữ trắng */
+        }
+        .card {
+            background-color: #343a40; /* Màu xám đậm */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .btn-custom {
+            background-color: #ffc107;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #e0a800;
+        }
+        a {
+            color: #ffc107;
+        }
+        a:hover {
+            color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card text-white" style="width: 400px;">
+            <h2 class="text-center mb-4">Đăng Nhập</h2>
+            <form id="login-form">
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="email" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="Mật khẩu" required>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Đăng Nhập</button>
+            </form>
+            <p class="text-center mt-3">Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a></p>
+        </div>
+    </div>
+    <!-- Footer -->
+<footer class="footer mt-5 bg-dark text-white text-center py-3">
+    <div class="container">
+        <p class="mb-1">&copy; 2025 Nhóm 2 - Bản quyền thuộc về nhóm</p>
+        <div>
+            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
+</footer>
+
+
+    <script>
+      document.getElementById("login-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.userId) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("userRole", data.role);  // Lưu role vào localStorage
+
+            alert("Đăng nhập thành công!");
+
+            // Kiểm tra role và chuyển hướng
+            if (data.role === "admin") {
+                window.location.href = "admin1.html";
+            } else {
+                window.location.href = "index.html";
+            }
+        } else {
+            alert("Sai email hoặc mật khẩu!");
+        }
+    })
+    .catch(error => console.error("Lỗi đăng nhập:", error));
+});
+
+
+    </script>
+</body>
+</html>

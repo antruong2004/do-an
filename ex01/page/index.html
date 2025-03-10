@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Quần Áo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .carousel-container {
+            width: 100%;
+            height: 100vh;
+        }
+        .carousel-inner img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+        .content {
+            flex: 1;
+            padding-top: 20px;
+        }
+        .product-card {
+            border-radius: 10px;
+            transition: 0.3s;
+            background: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .product-img {
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+            width: 100%;
+        }
+        .footer {
+            margin-top: auto;
+        }
+        .search-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            padding-left: 2.5rem;
+        }
+        .search-bar .fa-search {
+            position: absolute;
+            left: 10px;
+        }
+    </style>
+</head>
+<body class="animate__animated animate__fadeIn">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light animate__animated animate__fadeInDown">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="about.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="policy.html">Chính sách</a></li>
+                    <li class="nav-item"><a id="login-link" class="nav-link" href="login.html">Đăng nhập</a></li>
+                    <li class="nav-item"><a id="register-link" class="nav-link" href="register.html">Đăng ký</a></li>
+                    <li class="nav-item"><a id="logout-link" class="nav-link" href="#" onclick="logout()" style="display: none;">Đăng xuất</a></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">🛒 Giỏ hàng (<span id="cart-count">0</span>)</a>
+                    </li>
+                </ul>
+                <form class="d-flex search-bar ms-3">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </form>
+            </div>
+        </div>
+    </nav>
+     
+    <div id="carouselExampleIndicators" class="carousel slide carousel-container" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="image/product1.jpg" class="d-block w-100" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="image/product2.jpg" class="d-block w-100" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="image/product3.jpg" class="d-block w-100" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+    
+    <div class="container mt-5 content">
+        <h2 class="text-center">Danh sách sản phẩm</h2>
+        <div id="product-list" class="row"></div>
+    </div>
+    
+    <footer class="bg-dark text-white text-center p-3 footer animate__animated animate__fadeInUp">
+        <p>&copy; 2024 Nhóm 2 - Bản quyền thuộc về nhóm 2</p>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
