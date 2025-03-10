@@ -264,6 +264,126 @@ function deleteProduct(id) {
         });
     }
 }
+function addProduct() {
+    const role = localStorage.getItem("role");
+    const name = prompt("Nhập tên sản phẩm:");
+    const price = prompt("Nhập giá sản phẩm:");
+    const image = prompt("Nhập URL hình ảnh sản phẩm:");
+
+    if (!name || !price || !image) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    fetch("http://localhost:3000/products/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, price, image })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            loadProducts(); 
+        } else if (data.error) {
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error("❌ Lỗi khi thêm sản phẩm:", error);
+    });
+}
+
+function handleSearchAdmin(event) {
+    if (event.key === "Enter") {
+        searchProductsAdmin();
+    }
+}
+
+function searchProductsAdmin() {
+    const keyword = document.getElementById("search-admin").value.trim().toLowerCase();
+    
+    fetch("http://localhost:3000/products")
+        .then(response => response.json())
+        .then(data => {
+            const productTableBody = document.getElementById("product-table-body");
+            productTableBody.innerHTML = ""; // Xóa sản phẩm cũ
+
+            const filteredProducts = data.filter(product =>
+                product.name.toLowerCase().includes(keyword)
+            );
+
+            if (filteredProducts.length === 0) {
+                productTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger fw-bold">❌ Không tìm thấy sản phẩm!</td></tr>`;
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const productRow = `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price} VND</td>
+                        <td><img src="${product.image}" class="img-thumbnail" style="max-height: 100px;"></td>
+                        <td>
+                            <button onclick="editProduct(${product.id})" class="btn btn-warning">✏ Sửa</button>
+                            <button onclick="deleteProduct(${product.id})" class="btn btn-danger">🗑 Xóa</button>
+                        </td>
+                    </tr>
+                `;
+                productTableBody.innerHTML += productRow;
+            });
+        })
+        .catch(error => console.error("Lỗi khi tìm kiếm sản phẩm trong Admin:", error));
+}
+
+function handleSearchIndex(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        loadProductsForIndex();
+    }
+}
+
+
+function loadProductsForIndex() {
+    const keyword = document.getElementById('search-index').value.toLowerCase(); // Lấy từ khóa nhập vào
+
+    fetch('http://localhost:3000/products')
+        .then(response => response.json())
+        .then(data => {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+
+            const filteredProducts = data.filter(product => 
+                product.name.toLowerCase().includes(keyword) // Lọc sản phẩm theo tên
+            );
+
+            if (filteredProducts.length === 0) {
+                productList.innerHTML = '<p class="text-center">Không tìm thấy sản phẩm nào.</p>';
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const productCard = `
+                    <div class="col-md-4">
+                        <div class="product-card">
+                            <img src="${product.image}" class="product-img" alt="${product.name}">
+                            <h5>${product.name}</h5>
+                            <p>${product.price} VND</p>
+                            <button onclick="addToCart(${product.id})" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard;
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải danh sách sản phẩm:', error);
+        });
+}
+
+
+
 
 // Cập nhật hiển thị nút khi tải trang
 document.addEventListener('DOMContentLoaded', function() {
@@ -276,5 +396,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (document.getElementById('cart-container')) {
         loadCart();
-    }
+};
 });
