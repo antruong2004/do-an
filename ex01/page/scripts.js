@@ -201,10 +201,11 @@ function loadProducts() {
                         <td>${product.name}</td>
                         <td>${product.price} VND</td>
                         <td><img src="${product.image}" class="product-img" alt="${product.name}" style="max-height: 100px;"></td>
-                        <td>
-                            <button onclick="editProduct(${product.id}, '${product.name}', ${product.price}, '${product.image}')" class="btn btn-warning">Sửa</button>
-                            <button onclick="deleteProduct(${product.id})" class="btn btn-danger">Xóa</button>
+                       <td>
+                            <button onclick="editProduct(${product.id}, '${product.name}', ${product.price}, '${product.image}')" class="btn btn-warning">✏ Sửa</button>
+                            <button onclick="deleteProduct(${product.id})" class="btn btn-danger">🗑 Xóa</button>
                         </td>
+
                     </tr>
                 `;
                 productTableBody.innerHTML += productRow;
@@ -245,6 +246,7 @@ function editProduct(id, name, price, image) {
 }
 
 // Xóa sản phẩm
+// Xóa sản phẩm
 function deleteProduct(id) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
         fetch(`http://localhost:3000/products/delete/${id}`, {
@@ -254,7 +256,7 @@ function deleteProduct(id) {
         .then(data => {
             if (data.message) {
                 alert(data.message);
-                loadProducts();
+                loadProducts(); // Load lại danh sách sau khi xóa
             } else if (data.error) {
                 alert(data.error);
             }
@@ -264,6 +266,7 @@ function deleteProduct(id) {
         });
     }
 }
+
 function addProduct() {
     const role = localStorage.getItem("role");
     const name = prompt("Nhập tên sản phẩm:");
