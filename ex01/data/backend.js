@@ -243,44 +243,27 @@ app.get("/cart/:userId", async (req, res) => {
     }
 });
 
-// API xóa sản phẩm khỏi giỏ hàng
-app.delete("/cart/:userId/:productId", async (req, res) => {
-    try {
-        let pool = await sql.connect(config);
-        await pool
-            .request()
-            .input("userId", sql.Int, req.params.userId)
-            .input("productId", sql.Int, req.params.productId)
-            .query("DELETE FROM Cart WHERE userId = @userId AND productId = @productId");
+// API xóa sản phẩm
+app.delete('/products/delete/:id', async (req, res) => {
+    const { id } = req.params;
 
-        res.send("Đã xóa sản phẩm khỏi giỏ hàng");
-    } catch (err) {
-        res.status(500).send("Lỗi server: " + err.message);
-    }
-});
-app.post('/cart/remove', async (req, res) => {
-    const { userId, productId } = req.body;
-
-    if (!userId || !productId) {
-        return res.status(400).json({ error: "Thiếu userId hoặc productId." });
+    if (!id) {
+        return res.status(400).json({ error: "Thiếu ID sản phẩm." });
     }
 
     try {
         let pool = await sql.connect(dbConfig);
         await pool.request()
-            .input('userId', sql.Int, userId)
-            .input('productId', sql.Int, productId)
-            .query(`
-                DELETE FROM Cart WHERE UserId = @userId AND ProductId = @productId
-            `);
+            .input('id', sql.Int, id)
+            .query("DELETE FROM Products WHERE id = @id");
 
-        console.log(`📌 [DEBUG] Xóa sản phẩm ${productId} khỏi giỏ hàng user ${userId}`);
-        res.json({ message: "Sản phẩm đã được xóa khỏi giỏ hàng" });
+        res.json({ message: 'Xóa sản phẩm thành công!' });
     } catch (err) {
-        console.error("❌ Lỗi khi xóa sản phẩm:", err);
-        res.status(500).json({ error: "Lỗi server!" });
+        console.error("Lỗi khi xóa sản phẩm:", err);
+        res.status(500).json({ error: 'Lỗi server!' });
     }
 });
+
 
 
 // Kết nối SQL Server
